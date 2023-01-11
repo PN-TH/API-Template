@@ -17,3 +17,6 @@ export const DB_PORT = getEnv(`DB_PORT`);
 export const DB_NAME = getEnv(`DB_NAME`);
 export const DB_USER = getEnv(`DB_USER`);
 export const DB_PASS = getEnv(`DB_PASS`);
+export const JWT_PRIVATE_KEY = getEnv(`JWT_PRIVATE_KEY`);
+export const JWT_EXPIRES_IN = getEnv(`JWT_EXPIRES_IN`);
+export const JWT_EXPIRES_IN_REMEMBER = getEnv(`JWT_EXPIRES_IN_REMEMBER`);

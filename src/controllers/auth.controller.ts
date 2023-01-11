@@ -1,10 +1,21 @@
 import { NextFunction, Request, Response } from 'express';
 import { db_local } from '../database';
-import { registerUserService } from '../services/auth.services';
+import { loginService, registerService } from '../services/auth.services';
 
-export const registerUser = async (req: Request, res: Response, next: NextFunction) => {
+export const login = async (req: Request, res: Response, next: NextFunction) => {
+  const { email, password, remember } = req.body;
   try {
-    const result = await registerUserService({ db_local }, req.body);
+    const result = await loginService({ db_local }, email, password, remember);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const register = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await registerService({ db_local }, req.body);
 
     return res.status(200).json(result);
   } catch (error) {
