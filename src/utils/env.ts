@@ -11,8 +11,6 @@ export function getEnv(variable: string): string {
 }
 
 export const SERVER_PORT = getEnv(`SERVER_PORT`);
-export const SERVER_HOST = getEnv(`SERVER_HOST`);
-export const SERVER_DOMAIN = getEnv(`SERVER_DOMAIN`);
 
 export const DB_HOST = getEnv(`DB_HOST`);
 export const DB_PORT = getEnv(`DB_PORT`);

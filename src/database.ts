@@ -1,6 +1,5 @@
 import { DataSource } from 'typeorm';
 import { DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER } from './utils/env';
-import { join } from 'path';
 
 const db_local = new DataSource({
   type: 'mysql',
