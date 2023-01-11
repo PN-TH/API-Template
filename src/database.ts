@@ -12,14 +12,13 @@ const db_local = new DataSource({
   username: DB_USER,
   password: DB_PASS,
   database: DB_NAME,
-  entities: [join(__dirname, './../entities/*.entity{.ts,.js}')],
+  entities: [__dirname + '/../**/*.entity.{js,ts}'],
   timezone: 'Z'
 });
 
 export const initDb = async () => {
   try {
     await db_local.initialize();
-    await db_local.synchronize();
   } catch (error) {
     console.error(error);
   }
