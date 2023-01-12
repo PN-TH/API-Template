@@ -23,3 +23,12 @@ export const createMaterialService = async ({ db_local }: IConnexion, data: Mate
     console.error(error);
   }
 };
+
+export const getMaterialsByUserService = async ({ db_local }: IConnexion, id: number) => {
+  try {
+    const allMaterials = await db_local.getRepository(Material).find({ where: { user: { id } } });
+    return allMaterials;
+  } catch (error) {
+    console.error(error);
+  }
+};

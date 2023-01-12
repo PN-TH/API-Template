@@ -7,5 +7,5 @@ export interface IMaterial {
   picture?: string;
   availability: string;
   createdAt: Date;
-  user?: User;
+  user: User;
 }
