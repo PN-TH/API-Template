@@ -5,6 +5,9 @@ import {
   getMaterialsByUserService,
   getMaterialsService
 } from '../services/material.services';
+import { verifyToken } from '../middlewares/verifyToken';
+import { ITokenPayload } from '../interfaces/token.interface';
+import { CustomError } from '../utils/errorHandler';
 
 export const getMaterials = async (req: Request, res: Response, next: NextFunction) => {
   db_local.synchronize();
@@ -19,8 +22,14 @@ export const getMaterials = async (req: Request, res: Response, next: NextFuncti
 
 export const createMaterials = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await createMaterialService({ db_local }, req.body);
-    return res.status(201).json('created');
+    req.tokenPayload = (await verifyToken(req.headers.authorization as string)) as ITokenPayload;
+
+    if (req.tokenPayload && req.tokenPayload.user === req.body.user) {
+      await createMaterialService({ db_local }, req.body);
+      return res.status(201).json('created');
+    } else {
+      throw new CustomError(401, 'Unauthorized');
+    }
   } catch (error) {
     return next(error);
   }
@@ -29,9 +38,14 @@ export const createMaterials = async (req: Request, res: Response, next: NextFun
 export const getMaterialsByUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { idUser } = req.params;
-    const result = await getMaterialsByUserService({ db_local }, parseInt(idUser, 10));
+    req.tokenPayload = (await verifyToken(req.headers.authorization as string)) as ITokenPayload;
 
-    return res.status(200).json(result);
+    if (req.tokenPayload && req.tokenPayload.user === req.body.user) {
+      const result = await getMaterialsByUserService({ db_local }, parseInt(idUser, 10));
+      return res.status(200).json(result);
+    } else {
+      throw new CustomError(401, 'Unauthorized');
+    }
   } catch (error) {
     return next(error);
   }
