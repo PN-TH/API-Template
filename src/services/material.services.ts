@@ -1,5 +1,6 @@
 import { Material } from '../entities/Material.entity';
 import { IConnexion } from '../interfaces/connexion.interface';
+import { handleServiceCatch } from '../utils/errorHandler';
 
 export const getMaterialsService = async ({ db_local }: IConnexion) => {
   try {
@@ -8,7 +9,7 @@ export const getMaterialsService = async ({ db_local }: IConnexion) => {
 
     return allMaterials;
   } catch (error) {
-    console.error(error);
+    throw handleServiceCatch(error);
   }
 };
 
@@ -20,7 +21,7 @@ export const createMaterialService = async ({ db_local }: IConnexion, data: Mate
 
     return result;
   } catch (error) {
-    console.error(error);
+    throw handleServiceCatch(error);
   }
 };
 
@@ -29,6 +30,6 @@ export const getMaterialsByUserService = async ({ db_local }: IConnexion, id: nu
     const allMaterials = await db_local.getRepository(Material).find({ where: { user: { id } } });
     return allMaterials;
   } catch (error) {
-    console.error(error);
+    throw handleServiceCatch(error);
   }
 };
