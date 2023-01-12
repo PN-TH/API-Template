@@ -15,6 +15,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    db_local.synchronize();
     const result = await registerService({ db_local }, req.body);
 
     return res.status(200).json(result);

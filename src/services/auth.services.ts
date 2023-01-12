@@ -4,6 +4,7 @@ import argon2 from 'argon2';
 import { IUser } from '../interfaces/user.interface';
 import jwt from 'jsonwebtoken';
 import { JWT_EXPIRES_IN, JWT_EXPIRES_IN_REMEMBER, JWT_PRIVATE_KEY } from '../utils/env';
+import { CustomError, handleServiceCatch } from '../utils/errorHandler';
 
 export const loginService = async (
   { db_local }: IConnexion,
@@ -16,12 +17,12 @@ export const loginService = async (
 
     const user = await userRepository.findOne({ where: { email } });
     if (!user) {
-      throw new Error('Invalid login');
+      throw new CustomError(400, 'User or Password incorrect');
     }
 
     const match = await argon2.verify(user.password, password);
     if (!match) {
-      throw new Error('Invalid login');
+      throw new CustomError(400, 'User or Password incorrect');
     }
 
     const idUser = user.id;
@@ -35,7 +36,7 @@ export const loginService = async (
 
     return token;
   } catch (error) {
-    console.error(error);
+    throw handleServiceCatch(error);
   }
 };
 
@@ -55,6 +56,6 @@ export const registerService = async ({ db_local }: IConnexion, newUser: IUser) 
     await userRepository.save(newUser);
     return newUser;
   } catch (error) {
-    console.error(error);
+    throw handleServiceCatch(error);
   }
 };

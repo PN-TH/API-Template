@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from 'typeorm';
+import { Material } from './Material.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -25,4 +26,7 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   updatedAt?: Date;
+
+  @OneToMany(() => Material, (material) => material.user)
+  materials: Material[];
 }
