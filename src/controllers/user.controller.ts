@@ -5,6 +5,7 @@ import { Request, Response, NextFunction } from 'express';
 export const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await getUserService({ db_local });
+    console.log(result);
     return res.status(200).json(result);
   } catch (error) {
     return next(error);

@@ -12,3 +12,5 @@ app.use(cors);
 app.use(express.json({ limit: '50mb' }));
 
 setUpRoutes(app);
+
+export default app;
